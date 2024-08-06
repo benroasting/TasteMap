@@ -2,10 +2,10 @@ import { StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 
-export default function Journal() {
+export default function Record() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Journal</Text>
+      <Text style={styles.title}>Record</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
