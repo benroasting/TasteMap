@@ -1,19 +1,16 @@
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
-import { Link } from "expo-router";
-import { COLORS } from "@/constants/Colors";
 
-export default function Home() {
+export default function SignUpSignIn() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>taste map</Text>
+      <Text style={styles.title}>Login</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <Link href="/(modals)/signUpSignIn">Log In</Link>
     </View>
   );
 }
@@ -25,10 +22,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 48,
+    fontSize: 20,
     fontWeight: "bold",
     fontFamily: "WorkSans",
-    color: COLORS.cerulean,
   },
   separator: {
     marginVertical: 30,
