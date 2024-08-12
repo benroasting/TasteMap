@@ -10,6 +10,7 @@ const COLORS = {
   salmon: "#C98474",
   eggplant: "#874C62",
   cerulean: "#00303F",
+  charcoal: "#545454",
 };
 
 export default {

@@ -1,5 +1,4 @@
 import { Tabs } from "expo-router";
-import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 
 // Styles
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -21,18 +20,9 @@ export default function TabLayout() {
         tabBarLabelStyle: { fontSize: 12, fontFamily: "WorkSans" },
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, false),
+        headerShown: false,
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="binoculars" color={color} />
-          ),
-        }}
-      />
       <Tabs.Screen
         name="journal"
         options={{
