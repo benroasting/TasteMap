@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function SignUpSignIn() {
+export default function SignUp() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Sign In</Text>
       <View style={styles.separator} />
     </View>
   );

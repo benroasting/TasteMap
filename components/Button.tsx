@@ -5,8 +5,8 @@ import Loading from "./Loading";
 import { heightPercentage } from "@/helpers/dimensions";
 
 interface ButtonProps {
-  buttonStyle?: [];
-  textStyle?: [];
+  buttonStyle?: {};
+  textStyle?: {};
   title: string;
   onPress?: () => void;
   loading?: boolean;
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 16,
+    fontWeight: "bold",
   },
   shadow: {
     shadowColor: COLORS.mist,

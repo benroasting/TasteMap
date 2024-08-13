@@ -18,14 +18,18 @@ export default function Home() {
         </View>
 
         <View style={styles.footer}>
-          <Button title="Start Exploring" onPress={() => {}} />
+          <Button
+            title="Start Exploring"
+            buttonStyle={{ marginHorizontal: widthPercentage(3) }}
+            onPress={() => router.push("/(modals)/signUp")}
+          />
           <View style={styles.footerTextContainer}>
             <Text style={styles.loginText}>Already have an account?</Text>
-            <Pressable onPress={() => router.push("/(modals)/signUpSignIn")}>
+            <Pressable onPress={() => router.push("/(modals)/signIn")}>
               <Text
                 style={[
                   styles.loginText,
-                  { color: COLORS.eggplant, fontWeight: 500 },
+                  { color: COLORS.eggplant, fontWeight: 800 },
                 ]}
               >
                 Log In
