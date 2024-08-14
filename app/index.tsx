@@ -21,11 +21,10 @@ export default function Home() {
           <Button
             title="Start Exploring"
             buttonStyle={{ marginHorizontal: widthPercentage(3) }}
-            onPress={() => router.push("/(modals)/signUp")}
           />
           <View style={styles.footerTextContainer}>
             <Text style={styles.loginText}>Already have an account?</Text>
-            <Pressable onPress={() => router.push("/(modals)/signIn")}>
+            <Pressable onPress={() => router.push("/signUpSignIn")}>
               <Text
                 style={[
                   styles.loginText,

@@ -1,12 +1,19 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 import React from "react";
 import { COLORS } from "@/constants/Colors";
 import Loading from "./Loading";
 import { heightPercentage } from "@/helpers/dimensions";
 
 interface ButtonProps {
-  buttonStyle?: {};
-  textStyle?: {};
+  buttonStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<ViewStyle>;
   title: string;
   onPress?: () => void;
   loading?: boolean;

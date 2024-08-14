@@ -1,28 +1,48 @@
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import React, { useEffect } from "react";
+import { Pressable } from "react-native";
+import { Slot, Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import * as SecureStore from "expo-secure-store";
+import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
+
+// Styles
 import "react-native-reanimated";
+import { COLORS } from "@/constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+const CLERK_PUBLISHABLE_KEY = process.env.CLERK_PUBLISHABLE_KEY as string;
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+const tokenCache = {
+  async getToken(key: string) {
+    try {
+      return SecureStore.getItemAsync(key);
+    } catch (error) {
+      console.error("SecureStore get item error: ", error);
+      return null;
+    }
+  },
+  async saveToken(key: string, value: string) {
+    try {
+      return SecureStore.setItemAsync(key, value);
+    } catch (error) {
+      return;
+    }
+  },
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     WorkSans: require("../assets/fonts/WorkSans-VariableFont_wght.ttf"),
     WorkSansItalic: require("../assets/fonts/WorkSans-Italic-VariableFont_wght.ttf"),
   });
+  const { isLoaded, isSignedIn } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -35,28 +55,58 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const inAuthGroup = segments[0] === "(auth)";
+
+    if (isSignedIn && !inAuthGroup) {
+      router.replace("/(tabs)/Journal");
+    } else if (!isSignedIn && inAuthGroup) {
+      router.replace("/");
+    }
+  }, [isSignedIn]);
+
+  if (!loaded || !isLoaded) {
+    return <Slot />;
   }
 
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
-        name="(modals)/signUpSignIn"
+        name="signUpSignIn"
         options={{
           title: "Log in or sign up",
           headerTitleStyle: {
             fontFamily: "WorkSans",
           },
           presentation: "modal",
+          headerRight: () => (
+            <Pressable onPress={() => router.back()}>
+              <Ionicons
+                name="close-outline"
+                size={25}
+                style={{ marginRight: 15, color: COLORS.eggplant }}
+              />
+            </Pressable>
+          ),
         }}
       />
+      <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
 }
+
+function RootLayoutNav() {
+  return (
+    <ClerkProvider
+      publishableKey={CLERK_PUBLISHABLE_KEY}
+      tokenCache={tokenCache}
+    >
+      <RootLayout />
+    </ClerkProvider>
+  );
+}
+
+export default RootLayoutNav;
