@@ -244,19 +244,6 @@ export default function SignUpSignIn() {
                   Continue with Google
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={defaultStyles.buttonOutline}
-                onPress={() => onSelectAuth(Strategy.Apple)}
-              >
-                <Ionicons
-                  name="logo-apple"
-                  size={24}
-                  style={defaultStyles.buttonIcon}
-                />
-                <Text style={defaultStyles.buttonOutlineText}>
-                  Continue with Apple
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
         )}
