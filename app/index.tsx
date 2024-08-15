@@ -24,7 +24,7 @@ export default function Home() {
           />
           <View style={styles.footerTextContainer}>
             <Text style={styles.loginText}>Already have an account?</Text>
-            <Pressable onPress={() => router.push("/signUpSignIn")}>
+            <Pressable onPress={() => router.replace("/(public)/Login")}>
               <Text
                 style={[
                   styles.loginText,

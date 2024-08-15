@@ -1,8 +1,11 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 
 // Styles
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { COLORS } from "@/constants/Colors";
+import { useAuth } from "@clerk/clerk-expo";
+import { Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -12,7 +15,19 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginTop: 3 }} {...props} />;
 }
 
-export default function TabLayout() {
+export const LogoutButton = () => {
+  const { signOut } = useAuth();
+
+  return (
+    <Pressable onPress={() => signOut()} style={{ marginRight: 10 }}>
+      <Ionicons name="log-out-outline" size={24} color={"#fff"} />
+    </Pressable>
+  );
+};
+
+export default function AuthRoutesLayout() {
+  const { isSignedIn } = useAuth();
+
   return (
     <Tabs
       screenOptions={{
