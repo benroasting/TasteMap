@@ -34,7 +34,7 @@ const tokenCache = {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-function RootLayout() {
+function InitialLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     WorkSans: require("../assets/fonts/WorkSans-VariableFont_wght.ttf"),
@@ -60,53 +60,27 @@ function RootLayout() {
 
     const inAuthGroup = segments[0] === "(auth)";
 
+    console.log("User changed: ", isSignedIn);
+
     if (isSignedIn && !inAuthGroup) {
-      router.replace("/(tabs)/Journal");
-    } else if (!isSignedIn && inAuthGroup) {
+      router.replace("/Journal");
+    } else if (!isSignedIn) {
       router.replace("/");
     }
   }, [isSignedIn]);
 
-  if (!loaded || !isLoaded) {
-    return <Slot />;
-  }
-
-  return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="signUpSignIn"
-        options={{
-          title: "Log in or sign up",
-          headerTitleStyle: {
-            fontFamily: "WorkSans",
-          },
-          presentation: "modal",
-          headerRight: () => (
-            <Pressable onPress={() => router.back()}>
-              <Ionicons
-                name="close-outline"
-                size={25}
-                style={{ marginRight: 15, color: COLORS.eggplant }}
-              />
-            </Pressable>
-          ),
-        }}
-      />
-      <Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  );
+  return <Slot />;
 }
 
-function RootLayoutNav() {
+const RootLayout = () => {
   return (
     <ClerkProvider
       publishableKey={CLERK_PUBLISHABLE_KEY}
       tokenCache={tokenCache}
     >
-      <RootLayout />
+      <InitialLayout />
     </ClerkProvider>
   );
-}
+};
 
-export default RootLayoutNav;
+export default RootLayout;
