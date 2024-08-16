@@ -23,7 +23,7 @@ const PublicLayout = () => {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#f9f9f9",
+          backgroundColor: "white",
         },
         headerTintColor: COLORS.charcoal,
         headerTitleStyle: {
@@ -35,7 +35,6 @@ const PublicLayout = () => {
         name="login"
         options={{
           headerTitle: "Log In",
-          headerRight: () => <CloseButton />,
         }}
       ></Stack.Screen>
       <Stack.Screen

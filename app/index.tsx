@@ -9,35 +9,33 @@ import { heightPercentage, widthPercentage } from "@/helpers/dimensions";
 export default function Home() {
   const router = useRouter();
   return (
-    <ScreenWrapper bg="white">
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>taste map</Text>
-          <View style={styles.separator} />
-          <Text style={styles.subtitle}>document your taste explorations</Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>taste map</Text>
+        <View style={styles.separator} />
+        <Text style={styles.subtitle}>document your taste explorations</Text>
+      </View>
 
-        <View style={styles.footer}>
-          <Button
-            title="Start Exploring"
-            buttonStyle={{ marginHorizontal: widthPercentage(3) }}
-          />
-          <View style={styles.footerTextContainer}>
-            <Text style={styles.loginText}>Already have an account?</Text>
-            <Pressable onPress={() => router.push("/login")}>
-              <Text
-                style={[
-                  styles.loginText,
-                  { color: COLORS.eggplant, fontWeight: 800 },
-                ]}
-              >
-                Log In
-              </Text>
-            </Pressable>
-          </View>
+      <View style={styles.footer}>
+        <Button
+          title="Start Exploring"
+          buttonStyle={{ marginHorizontal: widthPercentage(3) }}
+        />
+        <View style={styles.footerTextContainer}>
+          <Text style={styles.loginText}>Already have an account?</Text>
+          <Pressable onPress={() => router.push("/login")}>
+            <Text
+              style={[
+                styles.loginText,
+                { color: COLORS.eggplant, fontWeight: 800 },
+              ]}
+            >
+              Log In
+            </Text>
+          </Pressable>
         </View>
       </View>
-    </ScreenWrapper>
+    </View>
   );
 }
 

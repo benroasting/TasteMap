@@ -5,54 +5,64 @@ import { defaultStyles } from "@/constants/Styles";
 import { widthPercentage } from "@/helpers/dimensions";
 import { useRouter } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Register = () => {
   const router = useRouter();
   const { signUp, setActive, isLoaded } = useSignUp();
+
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onSignUpPress = async () => {
+  const onSignUpPress = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!isLoaded) return;
     setLoading(true);
 
     try {
-      // Create the user on Clerk
+      console.log("Email Address:", emailAddress);
+      console.log("Password:", password);
       await signUp.create({
         emailAddress,
         password,
       });
+
       // Send verification Email
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      console.log("Verification email sent");
 
       // change the UI to verify the email address
       setPendingVerification(true);
     } catch (err: any) {
-      alert(err.errors[0].message);
+      console.error(JSON.stringify(err, null, 2));
     } finally {
       setLoading(false);
     }
   };
 
-  const onVerifyPress = async () => {
+  const onVerifyPress = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!isLoaded) return;
     setLoading(true);
 
     try {
-      const completeSignUp = await signUp!.attemptEmailAddressVerification({
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
       });
 
       if (completeSignUp.status === "complete") {
-        await setActive!({ session: completeSignUp.createdSessionId });
+        await setActive({ session: completeSignUp.createdSessionId });
         router.replace("/(auth)/journal");
+      } else {
+        console.error(JSON.stringify(completeSignUp, null, 2));
       }
     } catch (err: any) {
-      alert(err.errors[0].message);
+      console.error("Error", JSON.stringify(err, null, 2));
     } finally {
       setLoading(false);
     }
@@ -60,6 +70,7 @@ const Register = () => {
 
   return (
     <View style={styles.container}>
+      <Spinner visible={loading} />
       {!pendingVerification && (
         <View style={styles.formContainer}>
           <FormInputs
@@ -90,26 +101,26 @@ const Register = () => {
 
       {pendingVerification && (
         <>
-          <View>
+          <View style={styles.formContainer}>
             <FormInputs
               value={code}
               placeholder="Enter the code from your email"
               style={[defaultStyles.inputField]}
               onChange={setCode}
             />
+            <Pressable
+              style={defaultStyles.buttonOutline}
+              onPress={onVerifyPress}
+            >
+              <Text style={defaultStyles.buttonOutlineText}>Verify Email</Text>
+            </Pressable>
+            <Pressable
+              style={defaultStyles.buttonOutline}
+              onPress={() => router.back()}
+            >
+              <Text style={defaultStyles.buttonOutlineText}>Back to It</Text>
+            </Pressable>
           </View>
-          <Pressable
-            style={defaultStyles.buttonOutline}
-            onPress={onVerifyPress}
-          >
-            <Text style={defaultStyles.buttonOutlineText}>Verify Email</Text>
-          </Pressable>
-          <Pressable
-            style={defaultStyles.buttonOutline}
-            onPress={() => router.back()}
-          >
-            <Text style={defaultStyles.buttonOutlineText}>Back to It</Text>
-          </Pressable>
         </>
       )}
     </View>

@@ -10,6 +10,7 @@ import "react-native-reanimated";
 import { COLORS } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
+import ScreenWrapper from "@/helpers/ScreenWrapper";
 
 const CLERK_PUBLISHABLE_KEY = process.env.CLERK_PUBLISHABLE_KEY as string;
 
@@ -26,6 +27,7 @@ const tokenCache = {
     try {
       return await SecureStore.setItemAsync(key, value);
     } catch (error) {
+      console.error("SecureStore set item error: ", error);
       return;
     }
   },
@@ -60,10 +62,11 @@ function InitialLayout() {
     if (!isLoaded) return;
 
     const inAuthGroup = segments[0] === "(auth)";
+    console.log(" useEffect ~ segment:", inAuthGroup);
 
     if (isSignedIn && !inAuthGroup) {
-      router.replace("/journal");
-    } else if (!isSignedIn) {
+      router.replace("/(auth)/journal");
+    } else if (!isSignedIn && inAuthGroup) {
       router.replace("/");
     }
   }, [isSignedIn]);
@@ -77,7 +80,9 @@ const RootLayout = () => {
       publishableKey={CLERK_PUBLISHABLE_KEY}
       tokenCache={tokenCache}
     >
-      <InitialLayout />
+      <ScreenWrapper bg="white">
+        <InitialLayout />
+      </ScreenWrapper>
     </ClerkProvider>
   );
 };

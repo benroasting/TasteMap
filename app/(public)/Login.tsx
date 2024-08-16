@@ -47,17 +47,24 @@ const Login = () => {
     router.push("/reset");
   };
 
-  const onSignInPress = async () => {
+  const onSignInPress = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!isLoaded) return;
+    setLoading(true);
+
     try {
-      const signInAttempt = await signIn!.create({
+      await signIn.create({
         identifier: emailAddress,
         password,
       });
 
-      await setActive!({ session: signInAttempt.createdSessionId });
-      router.replace("/(auth)/journal");
+      await setActive({ session: signIn.createdSessionId });
+      // router.replace("/(auth)/journal");
     } catch (error: any) {
-      alert(error.error[0].message);
+      console.error(JSON.stringify(error, null, 2));
+    } finally {
+      setLoading(false);
     }
   };
 
