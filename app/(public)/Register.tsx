@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  GestureResponderEvent,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import FormInputs from "@/components/FormInputs";
 import { defaultStyles } from "@/constants/Styles";
@@ -17,7 +23,7 @@ const Register = () => {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onSignUpPress = async (e: React.FormEvent) => {
+  const onSignUpPress = async (e: GestureResponderEvent) => {
     e.preventDefault();
 
     if (!isLoaded) return;
@@ -40,7 +46,7 @@ const Register = () => {
     }
   };
 
-  const onVerifyPress = async (e: React.FormEvent) => {
+  const onVerifyPress = async (e: GestureResponderEvent) => {
     e.preventDefault();
 
     if (!isLoaded) return;
@@ -82,10 +88,7 @@ const Register = () => {
             secureTextEntry
           />
           <View>
-            <Pressable
-              style={[defaultStyles.button]}
-              onPress={() => onSignUpPress}
-            >
+            <Pressable style={[defaultStyles.button]} onPress={onSignUpPress}>
               <Text style={defaultStyles.buttonText}>Sign Up</Text>
             </Pressable>
             <Pressable
@@ -109,7 +112,7 @@ const Register = () => {
             />
             <Pressable
               style={defaultStyles.buttonOutline}
-              onPress={() => onVerifyPress}
+              onPress={onVerifyPress}
             >
               <Text style={defaultStyles.buttonOutlineText}>Verify Email</Text>
             </Pressable>

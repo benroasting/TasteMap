@@ -102,7 +102,7 @@ const Login = () => {
           onChange={setPassword}
           secureTextEntry
         />
-        <Pressable style={[defaultStyles.button]} onPress={() => onSignInPress}>
+        <Pressable style={[defaultStyles.button]} onPress={onSignInPress}>
           <Text style={defaultStyles.buttonText}>Continue</Text>
         </Pressable>
 
