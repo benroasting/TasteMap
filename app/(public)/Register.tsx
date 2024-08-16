@@ -24,16 +24,12 @@ const Register = () => {
     setLoading(true);
 
     try {
-      console.log("Email Address:", emailAddress);
-      console.log("Password:", password);
       await signUp.create({
         emailAddress,
         password,
       });
 
       // Send verification Email
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-      console.log("Verification email sent");
 
       // change the UI to verify the email address
       setPendingVerification(true);
@@ -86,7 +82,10 @@ const Register = () => {
             secureTextEntry
           />
           <View>
-            <Pressable style={[defaultStyles.button]} onPress={onSignUpPress}>
+            <Pressable
+              style={[defaultStyles.button]}
+              onPress={() => onSignUpPress}
+            >
               <Text style={defaultStyles.buttonText}>Sign Up</Text>
             </Pressable>
             <Pressable
@@ -110,7 +109,7 @@ const Register = () => {
             />
             <Pressable
               style={defaultStyles.buttonOutline}
-              onPress={onVerifyPress}
+              onPress={() => onVerifyPress}
             >
               <Text style={defaultStyles.buttonOutlineText}>Verify Email</Text>
             </Pressable>
