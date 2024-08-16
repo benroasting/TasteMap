@@ -16,7 +16,7 @@ const CLERK_PUBLISHABLE_KEY = process.env.CLERK_PUBLISHABLE_KEY as string;
 const tokenCache = {
   async getToken(key: string) {
     try {
-      return SecureStore.getItemAsync(key);
+      return await SecureStore.getItemAsync(key);
     } catch (error) {
       console.error("SecureStore get item error: ", error);
       return null;
@@ -24,7 +24,7 @@ const tokenCache = {
   },
   async saveToken(key: string, value: string) {
     try {
-      return SecureStore.setItemAsync(key, value);
+      return await SecureStore.setItemAsync(key, value);
     } catch (error) {
       return;
     }
@@ -56,14 +56,13 @@ function InitialLayout() {
   }, [loaded]);
 
   useEffect(() => {
+    console.log("User changed: ", isSignedIn);
     if (!isLoaded) return;
 
     const inAuthGroup = segments[0] === "(auth)";
 
-    console.log("User changed: ", isSignedIn);
-
     if (isSignedIn && !inAuthGroup) {
-      router.replace("/Journal");
+      router.replace("/journal");
     } else if (!isSignedIn) {
       router.replace("/");
     }

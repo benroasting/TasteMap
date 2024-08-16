@@ -24,21 +24,21 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="Journal"
+        name="journal"
         options={{
           title: "Journal",
           tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="Record"
+        name="record"
         options={{
           title: "Record",
           tabBarIcon: ({ color }) => <TabBarIcon name="pencil" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="Map"
+        name="map"
         options={{
           title: "Map",
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
