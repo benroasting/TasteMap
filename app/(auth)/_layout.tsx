@@ -44,6 +44,15 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="user-circle" color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  GestureResponderEvent,
   Pressable,
   StyleSheet,
   Text,
@@ -23,7 +24,7 @@ import { heightPercentage, widthPercentage } from "@/helpers/dimensions";
 
 enum Strategy {
   Google = "oauth_google",
-  // Add more strategies here
+  Apple = "oauth_apple",
 }
 
 const Login = () => {
@@ -31,9 +32,12 @@ const Login = () => {
   const router = useRouter();
   const { signIn, setActive, isLoaded } = useSignIn();
 
-  // const { startOAuthFlow: googleAuth } = useOAuth({
-  //   strategy: "oauth_google",
-  // });
+  const { startOAuthFlow: googleAuth } = useOAuth({
+    strategy: "oauth_google",
+  });
+  const { startOAuthFlow: appleAuth } = useOAuth({
+    strategy: "oauth_apple",
+  });
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +51,7 @@ const Login = () => {
     router.push("/reset");
   };
 
-  const onSignInPress = async (e: React.FormEvent) => {
+  const onSignInPress = async (e: GestureResponderEvent) => {
     e.preventDefault();
 
     if (!isLoaded) return;
@@ -68,24 +72,25 @@ const Login = () => {
     }
   };
 
-  // const onSelectAuth = async (strategy: Strategy) => {
-  //   const selectAuth = {
-  //     [Strategy.Google]: googleAuth,
-  //   }[strategy];
+  const onSelectAuth = async (strategy: Strategy) => {
+    const selectAuth = {
+      [Strategy.Google]: googleAuth,
+      [Strategy.Apple]: appleAuth,
+    }[strategy];
 
-  //   try {
-  //     const { createdSessionId, setActive, signIn, signUp } =
-  //       await selectAuth();
+    try {
+      const { createdSessionId, setActive, signIn, signUp } =
+        await selectAuth();
 
-  //     if (createdSessionId) {
-  //       await setActive!({ session: createdSessionId });
+      if (createdSessionId) {
+        await setActive!({ session: createdSessionId });
 
-  //       router.replace("/(auth)/journal");
-  //     }
-  //   } catch (err) {
-  //     console.log("OAuth error", err);
-  //   }
-  // };
+        router.replace("/(auth)/profile");
+      }
+    } catch (err) {
+      console.log("OAuth error", err);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -126,7 +131,7 @@ const Login = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[defaultStyles.buttonOutline, { marginBottom: 10 }]}
-            // onPress={() => onSelectAuth(Strategy.Google)}
+            onPress={() => onSelectAuth(Strategy.Google)}
           >
             <Ionicons
               name="logo-google"
@@ -135,6 +140,19 @@ const Login = () => {
             />
             <Text style={defaultStyles.buttonOutlineText}>
               Continue with Google
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[defaultStyles.buttonOutline, { marginBottom: 10 }]}
+            onPress={() => onSelectAuth(Strategy.Apple)}
+          >
+            <Ionicons
+              name="logo-apple"
+              size={24}
+              style={defaultStyles.buttonIcon}
+            />
+            <Text style={defaultStyles.buttonOutlineText}>
+              Continue with Apple
             </Text>
           </TouchableOpacity>
         </View>

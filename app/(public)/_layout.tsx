@@ -35,6 +35,7 @@ const PublicLayout = () => {
         name="login"
         options={{
           headerTitle: "Log In",
+          presentation: "modal",
         }}
       ></Stack.Screen>
       <Stack.Screen

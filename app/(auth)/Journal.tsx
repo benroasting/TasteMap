@@ -8,7 +8,7 @@ export default function Journal() {
     <View style={styles.container}>
       <Text style={styles.title}>Journal</Text>
       <View style={styles.separator} />
-      <Link href="/coffee/12">Coffee Details</Link>
+      {/* <Link href="/coffee/12">Coffee Details</Link> */}
     </View>
   );
 }

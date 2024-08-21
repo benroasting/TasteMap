@@ -58,11 +58,9 @@ function InitialLayout() {
   }, [loaded]);
 
   useEffect(() => {
-    console.log("User changed: ", isSignedIn);
     if (!isLoaded) return;
 
     const inAuthGroup = segments[0] === "(auth)";
-    console.log(" useEffect ~ segment:", inAuthGroup);
 
     if (isSignedIn && !inAuthGroup) {
       router.replace("/(auth)/journal");
