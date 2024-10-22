@@ -8,7 +8,6 @@ import {
 import React, { useState } from "react";
 import FormInputs from "@/components/FormInputs";
 import { defaultStyles } from "@/constants/Styles";
-import { widthPercentage } from "@/helpers/dimensions";
 import { useRouter } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -74,7 +73,7 @@ const Register = () => {
     <View style={styles.container}>
       <Spinner visible={loading} />
       {!pendingVerification && (
-        <View style={styles.formContainer}>
+        <View>
           <FormInputs
             autoCapitalize="none"
             placeholder="Email"
@@ -103,7 +102,7 @@ const Register = () => {
 
       {pendingVerification && (
         <>
-          <View style={styles.formContainer}>
+          <View>
             <FormInputs
               value={code}
               placeholder="Enter the code from your email"
@@ -136,18 +135,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: "bold",
-    fontFamily: "WorkSans",
-    marginBottom: 20,
-  },
-  formContainer: {
-    width: widthPercentage(80),
-  },
-  links: {
-    textAlign: "center",
-    paddingBottom: 2,
   },
 });

@@ -92,17 +92,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    fontSize: 36,
-    fontWeight: "bold",
-    fontFamily: "WorkSans",
-    marginBottom: 20,
-  },
   formContainer: {
     width: widthPercentage(80),
-  },
-  links: {
-    textAlign: "center",
-    paddingBottom: 2,
   },
 });

@@ -7,31 +7,8 @@ import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 
 // Styles
 import "react-native-reanimated";
-import { COLORS } from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import ScreenWrapper from "@/helpers/ScreenWrapper";
-
-const CLERK_PUBLISHABLE_KEY = process.env.CLERK_PUBLISHABLE_KEY as string;
-
-const tokenCache = {
-  async getToken(key: string) {
-    try {
-      return await SecureStore.getItemAsync(key);
-    } catch (error) {
-      console.error("SecureStore get item error: ", error);
-      return null;
-    }
-  },
-  async saveToken(key: string, value: string) {
-    try {
-      return await SecureStore.setItemAsync(key, value);
-    } catch (error) {
-      console.error("SecureStore set item error: ", error);
-      return;
-    }
-  },
-};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -73,11 +50,41 @@ function InitialLayout() {
 }
 
 const RootLayout = () => {
+  const tokenCache = {
+    async getToken(key: string) {
+      try {
+        const item = await SecureStore.getItemAsync(key);
+        if (item) {
+          console.log(`${key} was used 🔐 \n`);
+        } else {
+          console.log("No values stored under key: " + key);
+        }
+        return item;
+      } catch (error) {
+        console.error("SecureStore get item error: ", error);
+        await SecureStore.deleteItemAsync(key);
+        return null;
+      }
+    },
+    async saveToken(key: string, value: string) {
+      try {
+        return SecureStore.setItemAsync(key, value);
+      } catch (err) {
+        return;
+      }
+    },
+  };
+
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+  if (!publishableKey) {
+    throw new Error(
+      "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env",
+    );
+  }
+
   return (
-    <ClerkProvider
-      publishableKey={CLERK_PUBLISHABLE_KEY}
-      tokenCache={tokenCache}
-    >
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <ScreenWrapper bg="white">
         <InitialLayout />
       </ScreenWrapper>

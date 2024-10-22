@@ -20,7 +20,7 @@ import { useWarmUpBrowser } from "@/helpers/useWarmUpBrowser";
 import { Ionicons } from "@expo/vector-icons";
 import { defaultStyles } from "@/constants/Styles";
 // import { useWarmUpBrowser } from "@/helpers/useWarmUpBrowser";
-import { heightPercentage, widthPercentage } from "@/helpers/dimensions";
+import { widthPercentage } from "@/helpers/dimensions";
 
 enum Strategy {
   Google = "oauth_google",
@@ -168,12 +168,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: "bold",
-    fontFamily: "WorkSans",
-    marginBottom: 20,
   },
   formContainer: {
     width: widthPercentage(80),
